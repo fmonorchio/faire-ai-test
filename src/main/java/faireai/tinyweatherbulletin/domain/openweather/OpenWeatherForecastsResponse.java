@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class OpenWeatherResponse implements Serializable {
+public class OpenWeatherForecastsResponse implements Serializable {
 
     public double lat;
 

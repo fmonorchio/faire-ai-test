@@ -1,7 +1,10 @@
 package faireai.tinyweatherbulletin.provider;
 
 import faireai.tinyweatherbulletin.annotation.Provider;
-import faireai.tinyweatherbulletin.domain.openweather.OpenWeatherResponse;
+import faireai.tinyweatherbulletin.config.OpenWeatherConfiguration;
+import faireai.tinyweatherbulletin.config.OpenWeatherForecastsConfiguration;
+import faireai.tinyweatherbulletin.config.OpenWeatherSecurityConfiguration;
+import faireai.tinyweatherbulletin.domain.openweather.OpenWeatherForecastsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -16,24 +19,58 @@ import java.util.Map;
 public class OpenWeatherProvider implements WeatherProvider {
 
     @Autowired
+    OpenWeatherConfiguration openWeatherConfiguration;
+
+    @Autowired
     private RestTemplate client;
 
     @Override
-    public OpenWeatherResponse getWeatherByCity(String cityName) {
+    public Object getGeoByCityName(String cityName) {
 
-        String url = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={appid}&units={units}";
+        String url = String.format("%s/geo/1.0/direct?q={cityName}&appid={appId}",
+                openWeatherConfiguration.getBaseUrl()
+        );
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.put("Content-Type", List.of("application/json"));
+
+        OpenWeatherSecurityConfiguration security = openWeatherConfiguration.getSecurity();
+        Map<String, String> params = Map.of(
+                "cityName", cityName,
+                "appId", security.getApiKey()
+        );
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+        ResponseEntity<OpenWeatherForecastsResponse> response = client.exchange(url, HttpMethod.GET, entity, OpenWeatherForecastsResponse.class, params);
+
+        return response;
+    }
+
+    @Override
+    public OpenWeatherForecastsResponse getWeatherByCity(String cityName) {
+
+        //getGeoByCityName(cityName);
+
+        String url = String.format("%s/data/2.5/onecall?lat={lat}&lon={lon}&exclude={exclude}&appid={appId}&units={units}",
+                openWeatherConfiguration.getBaseUrl()
+        );
 
         HttpHeaders headers = new HttpHeaders();
         headers.put("Content-Type", List.of("application/json"));
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
-        ResponseEntity<OpenWeatherResponse> response = client.exchange(url, HttpMethod.GET, entity, OpenWeatherResponse.class, Map.of(
-                "lat", "39.082520",
-                "lon", "-94.582306",
-                "exclude", "current,minutely,daily,alerts",
-                "appid", "481d417514a22de2a06e9982a4ce9e16",
-                "units", "metric"
-        ));
+
+        OpenWeatherSecurityConfiguration security = openWeatherConfiguration.getSecurity();
+        OpenWeatherForecastsConfiguration forecasts = openWeatherConfiguration.getForecasts();
+        Map<String, String> params = Map.of(
+                "lat", "39.082520", //cambia l'input utente
+                "lon", "-94.582306", //cambia l'input utente
+                "exclude", String.join(",", forecasts.getExclusions()),
+                "appId", security.getApiKey(),
+                "units", forecasts.getUnits()
+        );
+
+        ResponseEntity<OpenWeatherForecastsResponse> response = client.exchange(url, HttpMethod.GET, entity, OpenWeatherForecastsResponse.class, params);
 
         return response.getBody();
     }

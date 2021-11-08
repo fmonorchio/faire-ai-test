@@ -1,6 +1,6 @@
 package faireai.tinyweatherbulletin.controller;
 
-import faireai.tinyweatherbulletin.domain.openweather.OpenWeatherResponse;
+import faireai.tinyweatherbulletin.domain.openweather.OpenWeatherForecastsResponse;
 import faireai.tinyweatherbulletin.service.WeatherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class WeatherController {
     private WeatherService weatherService;
 
     @GetMapping
-    public OpenWeatherResponse getWeatherByCity(@RequestParam String cityName) {
+    public OpenWeatherForecastsResponse getWeatherByCity(@RequestParam String cityName) {
         log.info("Received request for weather forecasts (city: {})", cityName);
         return weatherService.getWeatherByCity(cityName);
     }
