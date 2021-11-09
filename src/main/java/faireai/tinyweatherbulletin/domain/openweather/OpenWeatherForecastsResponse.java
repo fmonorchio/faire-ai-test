@@ -1,6 +1,5 @@
 package faireai.tinyweatherbulletin.domain.openweather;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,11 +12,6 @@ public class OpenWeatherForecastsResponse implements Serializable {
 
     public double lon;
 
-    public String timezone;
-
-    @JsonProperty("timezone_offset")
-    public int timezoneOffset;
-
-    public List<Hourly> hourly;
+    public List<HourlyForecast> hourly;
 
 }
