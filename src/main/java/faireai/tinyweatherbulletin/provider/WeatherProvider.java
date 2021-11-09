@@ -1,12 +1,12 @@
 package faireai.tinyweatherbulletin.provider;
 
-import faireai.tinyweatherbulletin.domain.openweather.OpenWeatherForecastsResponse;
-import faireai.tinyweatherbulletin.domain.openweather.OpenWeatherGeoCityResponse;
+import faireai.tinyweatherbulletin.domain.openweather.forecasts.OpenWeatherForecastsResponse;
+import faireai.tinyweatherbulletin.domain.openweather.geo.OpenWeatherGeoResponse;
 
 public interface WeatherProvider {
 
-    OpenWeatherGeoCityResponse getGeoByCityName(String cityName);
+    OpenWeatherGeoResponse getGeoByCityName(String cityName);
 
-    OpenWeatherForecastsResponse getWeatherByCity(String cityName);
+    OpenWeatherForecastsResponse getForecastsByGeo(double latitude, double longitude);
 
 }

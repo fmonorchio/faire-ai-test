@@ -1,9 +1,9 @@
 package faireai.tinyweatherbulletin.service;
 
-import faireai.tinyweatherbulletin.domain.openweather.OpenWeatherForecastsResponse;
+import faireai.tinyweatherbulletin.domain.WeatherResponse;
 
 public interface WeatherService {
 
-    OpenWeatherForecastsResponse getWeatherByCity(String cityName);
+    WeatherResponse getWeatherByCity(String cityName);
 
 }
