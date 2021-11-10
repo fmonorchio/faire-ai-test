@@ -8,6 +8,7 @@ import faireai.core.service.WeatherService;
 import faireai.tinyweatherbulletin.other.MeasureAggregator;
 import faireai.core.provider.WeatherProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class WeatherServiceImpl implements WeatherService {
     private MeasureAggregator measureAggregator;
 
     @Override
+    @Cacheable(value = "weather", key = "#cityName.#countryCode")
     public Weather getWeatherByCity(String cityName, String countryCode) {
 
         GeoCoordinates geo = weatherProvider.getGeoByCityName(cityName, countryCode);

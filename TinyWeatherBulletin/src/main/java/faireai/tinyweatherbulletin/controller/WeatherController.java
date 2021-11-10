@@ -25,7 +25,7 @@ public class WeatherController {
             @NotEmpty @Size(min = 3) @RequestParam String cityName,
             @RequestParam(required = false) String countryCode) {
 
-        log.info("Received request for weather forecasts (city: {})", cityName);
+        log.info("Received request for weather forecasts (city: {}, country: {})", cityName, countryCode);
         return weatherService.getWeatherByCity(cityName, countryCode);
     }
 

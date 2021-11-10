@@ -1,3 +1,4 @@
+apply plugin: 'com.palantir.docker'
 apply plugin: 'org.springframework.boot'
 
 dependencies {
@@ -9,4 +10,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+bootJar {
+    archiveFileName = 'TinyWeatherBulletin.jar'
+}
+
+docker {
+    name = "faireai/tinyweatherbulletin"
+    files bootJar.archiveFile
+    tag 'latest', "${name}:latest"
+    tag 'currentVersion', "${name}:${version}"
 }
