@@ -18,9 +18,9 @@ public class DataPoints implements Serializable {
     public static DataPoints merge(DataPoints first, DataPoints second) {
 
         return new DataPoints(
-                NumberUtils.round(avg(first.avg, second.avg)),
-                NumberUtils.round(min(first.min, second.min)),
-                NumberUtils.round(max(first.max, second.max))
+                NumberUtils.round(avg(first.avg, second.avg), 2),
+                NumberUtils.round(min(first.min, second.min), 2),
+                NumberUtils.round(max(first.max, second.max), 2)
         );
     }
 

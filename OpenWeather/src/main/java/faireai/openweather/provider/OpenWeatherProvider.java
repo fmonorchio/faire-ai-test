@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Provider
@@ -35,7 +36,7 @@ public class OpenWeatherProvider implements WeatherProvider {
     private ConversionService conversionService;
 
     @Override
-    public GeoCoordinates getGeoByCityName(String cityName) {
+    public GeoCoordinates getGeoByCityName(String cityName, String countryCode) {
 
         String url = String.format("%s/geo/1.0/direct?q={q}&appid={appid}",
                 config.getBaseUrl()
@@ -46,9 +47,14 @@ public class OpenWeatherProvider implements WeatherProvider {
 
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
+        String query = String.format("%s%s",
+                cityName,
+                Objects.isNull(countryCode) ? "" : "," + countryCode
+                );
+
         SecurityConfiguration security = config.getSecurity();
         Map<String, String> params = Map.of(
-                "q", cityName,
+                "q", query,
                 "appid", security.getApiKey()
         );
 

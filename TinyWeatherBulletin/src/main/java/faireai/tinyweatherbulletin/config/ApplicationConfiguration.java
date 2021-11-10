@@ -16,4 +16,6 @@ public class ApplicationConfiguration {
 
     private Map<DayOfWeek, Range<LocalTime>> workingHours;
 
+    private int hourlyInterval;
+
 }

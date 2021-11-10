@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface WeatherProvider {
 
-    GeoCoordinates getGeoByCityName(String cityName);
+    GeoCoordinates getGeoByCityName(String cityName, String countryCode);
 
     List<Measures> getForecastsByGeo(double latitude, double longitude);
 

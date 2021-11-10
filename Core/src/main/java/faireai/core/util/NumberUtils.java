@@ -13,10 +13,6 @@ public final class NumberUtils {
                 .orElseThrow();
     }
 
-    public static double round(double number) {
-        return round(number, 2);
-    }
-
     public static double round(double number, int decimals) {
 
         return BigDecimal.valueOf(number)

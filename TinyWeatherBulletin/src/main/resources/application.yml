@@ -5,6 +5,7 @@ application:
     wednesday: "09:00-18:00"
     thursday: "09:00-18:00"
     friday: "09:00-13:00"
+  hourly-interval: 2
 
 openweather:
   base-url: "http://api.openweathermap.org"

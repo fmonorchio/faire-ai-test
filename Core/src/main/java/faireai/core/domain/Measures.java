@@ -33,7 +33,7 @@ public class Measures implements Serializable {
 
     public static Measures merge(Measures first, Measures second) {
 
-        if (first.isEmpty()) {
+        if (first.isInvalid()) {
             return second;
         }
 
@@ -52,7 +52,7 @@ public class Measures implements Serializable {
     private DataPoints humidity;
 
     @JsonIgnore
-    public boolean isEmpty() {
+    public boolean isInvalid() {
         return Objects.isNull(temperature) &&
                 Objects.isNull(humidity);
     }
