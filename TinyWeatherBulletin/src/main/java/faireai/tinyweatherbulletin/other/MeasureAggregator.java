@@ -7,14 +7,16 @@ import faireai.tinyweatherbulletin.config.ApplicationConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.reducing;
+import static faireai.core.domain.Measures.hourlyInterval;
+import static faireai.core.enumeration.HourType.VACATION;
+import static faireai.core.enumeration.HourType.WORK;
+import static java.util.Collections.sort;
+import static java.util.stream.Collectors.*;
 
 @Component
 public class MeasureAggregator {
@@ -27,32 +29,33 @@ public class MeasureAggregator {
 
     public Forecasts aggregate(List<Measures> forecasts) {
 
-        Map<Instant, Measures> aggregate = forecasts.stream()
+        Collection<Optional<Measures>> groupedByHourlyInterval = forecasts.stream()
                 .collect(
-                        Collectors.collectingAndThen(
-                                groupingBy(
-                                        Measures.hourlyInterval(config.getHourlyInterval()),
-                                        reducing(
-                                                new Measures(),
-                                                Measures::merge
-                                        )
-                                ),
-                                TreeMap::new
+                        groupingBy(
+                                hourlyInterval(config.getHourlyInterval()),
+                                reducing(Measures::merge)
+                        )
+                ).values();
+
+        Map<HourType, List<Measures>> groupedByHourType = groupedByHourlyInterval.stream()
+                .filter(Optional::isPresent)
+                .flatMap(Optional::stream)
+                .collect(
+                        groupingBy(
+                                m -> hourTypeSelector.getHourType(m.getDate()),
+                                collectingAndThen(
+                                        toList(),
+                                        lm -> {
+                                            sort(lm);
+                                            return lm;
+                                        }
+                                )
                         )
                 );
 
-        Map<HourType, Map<Instant, Measures>> collect = aggregate.entrySet().stream()
-                .collect(
-                        groupingBy(
-                        e -> hourTypeSelector.getHourType(e.getKey()),
-                        Collectors.toMap(
-                                Map.Entry::getKey,
-                                Map.Entry::getValue)
-                ));
-
         return new Forecasts(
-                collect.get(HourType.WORK),
-                collect.get(HourType.VACATION)
+                groupedByHourType.get(WORK),
+                groupedByHourType.get(VACATION)
         );
     }
 

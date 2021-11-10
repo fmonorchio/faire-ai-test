@@ -1,6 +1,6 @@
 package faireai.core.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import faireai.core.util.InstantUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,40 +8,37 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.function.Function;
 
 import static java.time.ZoneOffset.UTC;
-import static java.time.temporal.ChronoUnit.HOURS;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Measures implements Serializable {
+public class Measures implements Comparable<Measures>, Serializable {
 
-    public static Function<Measures, Instant> hourlyInterval(int interval) {
+    public static Function<Measures, String> hourlyInterval(int interval) {
 
         return hf -> {
 
             LocalDateTime date = LocalDateTime.ofInstant(hf.date, UTC);
             int hour = date.getHour();
-            return date.truncatedTo(HOURS)
-                    .withHour(hour - (hour % interval))
-                    .toInstant(UTC);
+
+            return String.format("%4d%02d%02d%02d",
+                    date.getYear(),
+                    date.getMonthValue(),
+                    date.getDayOfMonth(),
+                    hour - (hour % interval)
+            );
         };
     }
 
     public static Measures merge(Measures first, Measures second) {
 
-        if (first.isInvalid()) {
-            return second;
-        }
-
-        long diff = HOURS.between(first.date, second.date);
         return new Measures(
-                first.date.plus(diff / 2, HOURS),
+                InstantUtils.median(first.date, second.date),
                 DataPoints.merge(first.temperature, second.temperature),
-                DataPoints.merge(second.humidity, second.humidity)
+                DataPoints.merge(first.humidity, second.humidity)
         );
     }
 
@@ -51,10 +48,9 @@ public class Measures implements Serializable {
 
     private DataPoints humidity;
 
-    @JsonIgnore
-    public boolean isInvalid() {
-        return Objects.isNull(temperature) &&
-                Objects.isNull(humidity);
+    @Override
+    public int compareTo(Measures other) {
+        return date.compareTo(other.date);
     }
 
 }

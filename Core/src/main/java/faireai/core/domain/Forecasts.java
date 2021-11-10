@@ -5,16 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.Instant;
-import java.util.Map;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Forecasts implements Serializable {
 
-    private Map<Instant, Measures> work;
+    private List<Measures> work;
 
-    private Map<Instant, Measures> vacation;
+    private List<Measures> vacation;
 
 }

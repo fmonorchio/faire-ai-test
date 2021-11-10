@@ -1,14 +1,17 @@
 package faireai.tinyweatherbulletin.other;
 
-import faireai.tinyweatherbulletin.config.ApplicationConfiguration;
 import faireai.core.enumeration.HourType;
+import faireai.tinyweatherbulletin.config.ApplicationConfiguration;
 import org.apache.commons.lang3.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.*;
-import java.util.Map;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
+import static java.time.ZoneOffset.UTC;
 import static java.util.Objects.isNull;
 
 @Component
@@ -19,17 +22,13 @@ public class HourTypeSelector {
 
     public HourType getHourType(Instant instant) {
 
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
-        DayOfWeek day = dateTime.getDayOfWeek();
-
-        Map<DayOfWeek, Range<LocalTime>> workingHours = configuration.getWorkingHours();
-
-        Range<LocalTime> range = workingHours.get(day); //"09:00-18:00"
+        DayOfWeek day = LocalDateTime.ofInstant(instant, UTC).getDayOfWeek();
+        Range<LocalTime> range = configuration.getWorkingHours().get(day);
         if (isNull(range)) {
             return HourType.VACATION;
         }
 
-        LocalTime time = dateTime.toLocalTime();
+        LocalTime time = LocalTime.ofInstant(instant, UTC);
         if (range.contains(time)) {
             return HourType.WORK;
         }

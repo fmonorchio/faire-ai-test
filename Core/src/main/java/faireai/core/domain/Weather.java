@@ -11,6 +11,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Weather implements Serializable {
 
+    private String city;
+
+    private String country;
+
     private double latitude;
 
     private double longitude;
