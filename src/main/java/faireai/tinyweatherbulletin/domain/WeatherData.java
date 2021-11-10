@@ -1,5 +1,6 @@
 package faireai.tinyweatherbulletin.domain;
 
+import faireai.tinyweatherbulletin.util.NumberUtils;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,9 +25,9 @@ public class WeatherData {
 
     public void aggregate(WeatherData data) {
 
-        avg = (avg + data.avg) / 2;
-        min = min(min, data.min);
-        max = max(max, data.max);
+        avg = NumberUtils.round((avg + data.avg) / 2, 2);
+        min = NumberUtils.round(min(min, data.min), 2);
+        max = NumberUtils.round(max(max, data.max), 2);
     }
 
 }
