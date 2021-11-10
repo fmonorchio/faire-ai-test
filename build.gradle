@@ -1,35 +1,36 @@
-plugins {
-	id 'org.springframework.boot' version '2.5.6'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-}
-
-group = 'faire-ai'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+buildscript {
+	repositories {
+		maven {
+			url 'https://plugins.gradle.org/m2/'
+		}
+	}
+	dependencies {
+		classpath "io.spring.gradle:dependency-management-plugin:${dependencyManagement}"
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${boot}"
 	}
 }
 
-repositories {
-	mavenCentral()
-}
+allprojects {
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	implementation 'org.apache.commons:commons-lang3:3.7'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'java'
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
+	group = 'faire-ai'
+	version = '0.0.1'
 
-test {
-	useJUnitPlatform()
+	sourceCompatibility = '11'
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		implementation "org.projectlombok:lombok:${lombok}"
+		annotationProcessor "org.projectlombok:lombok:${lombok}"
+	}
+
+	test {
+		useJUnitPlatform()
+	}
+
 }

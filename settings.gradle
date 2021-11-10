@@ -1,1 +1,3 @@
-rootProject.name = 'tiny-weather-bulletin'
+include 'Core'
+include 'OpenWeather'
+include 'TinyWeatherBulletin'
