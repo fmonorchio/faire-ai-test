@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 import static faireai.core.util.NumberUtils.avg;
-import static java.lang.Math.*;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 
-//TODO: Missing tests
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

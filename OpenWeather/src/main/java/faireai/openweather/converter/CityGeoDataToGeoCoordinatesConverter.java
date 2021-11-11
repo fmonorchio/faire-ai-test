@@ -5,7 +5,6 @@ import faireai.openweather.domain.CityGeoData;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-//TODO: Missing tests
 @Component
 public class CityGeoDataToGeoCoordinatesConverter implements Converter<CityGeoData, GeoCoordinates> {
 

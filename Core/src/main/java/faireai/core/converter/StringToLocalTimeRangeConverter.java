@@ -1,12 +1,13 @@
 package faireai.core.converter;
 
+import com.github.javaparser.ParseException;
 import org.apache.commons.lang3.Range;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
-//TODO: Missing tests
 @Component
 public class StringToLocalTimeRangeConverter implements Converter<String, Range<LocalTime>> {
 
@@ -16,7 +17,7 @@ public class StringToLocalTimeRangeConverter implements Converter<String, Range<
         String[] times = source.split("\\s*-\\s*");
 
         if (times.length != 2) {
-            throw new IllegalArgumentException("Is not a range");
+            throw new DateTimeParseException("Is not a valid range", "", 0);
         }
 
         LocalTime from = LocalTime.parse(times[0]);

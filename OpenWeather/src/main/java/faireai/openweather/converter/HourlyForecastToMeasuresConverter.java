@@ -6,7 +6,6 @@ import faireai.openweather.domain.HourlyForecast;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-//TODO: Missing tests
 @Component
 public class HourlyForecastToMeasuresConverter implements Converter<HourlyForecast, Measures> {
 

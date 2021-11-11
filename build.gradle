@@ -8,13 +8,15 @@ buildscript {
 		classpath "com.palantir.gradle.docker:gradle-docker:${palantir}"
 		classpath "io.spring.gradle:dependency-management-plugin:${dependencyManagement}"
 		classpath "org.springframework.boot:spring-boot-gradle-plugin:${boot}"
+		classpath "org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:${testSets}"
 	}
 }
 
 allprojects {
 
 	apply plugin: 'io.spring.dependency-management'
-	apply plugin: 'java'
+	apply plugin: 'org.unbroken-dome.test-sets'
+	apply plugin: 'groovy'
 
 	group = 'faire-ai'
 	version = '0.0.1'
@@ -26,12 +28,24 @@ allprojects {
 	}
 
 	dependencies {
+		implementation "org.codehaus.groovy:groovy-all:${groovy}"
 		implementation "org.projectlombok:lombok:${lombok}"
 		annotationProcessor "org.projectlombok:lombok:${lombok}"
+
+		testImplementation "org.spockframework:spock-core:${spock}"
+		testImplementation "org.spockframework:spock-spring:${spock}"
 	}
 
-	test {
+	tasks.withType(Test) {
 		useJUnitPlatform()
 	}
 
+	testSets {
+		integrationTest {
+			dirName = 'integration-test'
+		}
+	}
+
+	check.dependsOn integrationTest
+	integrationTest.mustRunAfter test
 }
