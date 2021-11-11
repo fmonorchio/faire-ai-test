@@ -62,7 +62,7 @@ public class OpenWeatherProvider implements WeatherProvider {
         OpenWeatherGeoResponse body = client.exchange(url, HttpMethod.GET, entity, OpenWeatherGeoResponse.class, params)
                 .getBody();
 
-        CityGeoData city = body.getCityOrThrow();
+        CityGeoData city = Objects.requireNonNull(body).getCityOrThrow();
         return conversionService.convert(city, GeoCoordinates.class);
     }
 
@@ -91,7 +91,7 @@ public class OpenWeatherProvider implements WeatherProvider {
         OpenWeatherForecastsResponse body = client.exchange(url, HttpMethod.GET, entity, OpenWeatherForecastsResponse.class, params)
                 .getBody();
 
-        List<HourlyForecast> hourlyForecasts = body.getHourly();
+        List<HourlyForecast> hourlyForecasts = Objects.requireNonNull(body).getHourly();
         return hourlyForecasts.stream()
                 .map(hf -> conversionService.convert(hf, Measures.class))
                 .collect(Collectors.toList());

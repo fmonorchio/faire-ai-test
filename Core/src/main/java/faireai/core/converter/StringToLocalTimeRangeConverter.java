@@ -1,6 +1,5 @@
 package faireai.core.converter;
 
-import com.github.javaparser.ParseException;
 import org.apache.commons.lang3.Range;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

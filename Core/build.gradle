@@ -3,4 +3,5 @@ apply plugin: 'java-library'
 dependencies {
     api "org.springframework.boot:spring-boot-starter-web:${boot}"
     api "org.apache.commons:commons-lang3:${lang3}"
+    api "com.google.guava:guava:${guava}"
 }
