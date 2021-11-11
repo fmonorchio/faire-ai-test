@@ -1,5 +1,6 @@
 package faireai.core.domain;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,10 +22,13 @@ public class Measures implements Comparable<Measures>, Serializable {
         );
     }
 
+    @Schema(description = "Date when the measure occured")
     private Instant date;
 
+    @Schema(description = "Temperature detected")
     private DataPoints temperature;
 
+    @Schema(description = "Humidity detected")
     private DataPoints humidity;
 
     @Override

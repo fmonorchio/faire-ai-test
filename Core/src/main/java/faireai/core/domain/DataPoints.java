@@ -1,6 +1,7 @@
 package faireai.core.domain;
 
 import faireai.core.util.NumberUtils;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,10 +26,13 @@ public class DataPoints implements Serializable {
         );
     }
 
+    @Schema(description = "Average")
     private double avg;
 
+    @Schema(description = "Minimum")
     private double min;
 
+    @Schema(description = "Maximum")
     private double max;
 
     public DataPoints(double value) {
