@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
 
+//TODO: Missing tests
 @Component
 public class StringToLocalTimeRangeConverter implements Converter<String, Range<LocalTime>> {
 

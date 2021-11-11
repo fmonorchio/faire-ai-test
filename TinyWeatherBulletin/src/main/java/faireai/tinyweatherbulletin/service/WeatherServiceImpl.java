@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+//TODO: Missing tests
 @Slf4j
 @Service
 public class WeatherServiceImpl implements WeatherService {

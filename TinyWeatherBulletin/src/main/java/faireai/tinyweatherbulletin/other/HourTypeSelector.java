@@ -14,6 +14,7 @@ import java.time.LocalTime;
 import static java.time.ZoneOffset.UTC;
 import static java.util.Objects.isNull;
 
+//TODO: Missing tests
 @Component
 public class HourTypeSelector {
 

@@ -5,6 +5,7 @@ import java.util.stream.DoubleStream;
 
 import static java.math.RoundingMode.HALF_UP;
 
+//TODO: Missing tests
 public final class NumberUtils {
 
     public static double avg(double... numbers) {

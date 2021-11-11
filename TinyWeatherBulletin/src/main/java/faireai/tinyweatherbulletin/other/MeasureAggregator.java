@@ -18,6 +18,7 @@ import static faireai.core.enumeration.HourType.WORK;
 import static java.util.Collections.sort;
 import static java.util.stream.Collectors.*;
 
+//TODO: Missing tests
 @Component
 public class MeasureAggregator {
 

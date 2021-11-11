@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import static java.time.ZoneOffset.UTC;
 import static java.time.temporal.ChronoUnit.MINUTES;
 
+//TODO: Missing tests
 public final class InstantUtils {
 
     public static Instant median(Instant first, Instant second) {

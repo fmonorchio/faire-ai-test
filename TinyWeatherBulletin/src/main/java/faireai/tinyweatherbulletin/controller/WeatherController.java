@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+//TODO: Missing tests
 @Slf4j
 @RestController
 @RequestMapping("/weather")

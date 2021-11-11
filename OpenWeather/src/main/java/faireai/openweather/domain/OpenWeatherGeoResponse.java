@@ -9,6 +9,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 
+//TODO: Missing tests
 @Data
 public class OpenWeatherGeoResponse implements Serializable {
 
